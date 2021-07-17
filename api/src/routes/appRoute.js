@@ -22,16 +22,12 @@ function appRoute(app) {
                 reposVector = reposVector.concat(repos);
 
                 page ++;
-            }
+            };
             
             const reposFilter = reposVector
                 .filter(element => element.language === 'C#')
                 .reverse()
                 .slice(0, 5);
-
-            reposFilter.forEach(element => {
-                console.log(element.created_at); 
-            });
 
             res.send(reposFilter);
         })
