@@ -1,4 +1,4 @@
-const PORT = 4000;
+const PORT = process.env.PORT || 4000;
 
 const express = require('express');
 const cors = require("cors");
@@ -9,15 +9,15 @@ app.use(express.urlencoded({extended: false}));
 app.use(express.json());
 app.use(cors());
 
-app.use(function(req, res, next) {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-    res.header('Access-Control-Allow-Methods', 'GET');
+// app.use(function(req, res, next) {
+//     res.header('Access-Control-Allow-Origin', '*');
+//     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+//     res.header('Access-Control-Allow-Methods', 'GET');
   
-    next();
-});
+//     next();
+// });
 
 appRoute(app);
 
-app.get('/', (req, res) => res.send('Take Blip api'));
-app.listen(process.env.PORT || PORT, () => console.log('Api Rodando na porta 4000'));
+app.get('/', (req, res) => res.send('Take-Blip API'));
+app.listen(PORT, () => console.log('Running API'));

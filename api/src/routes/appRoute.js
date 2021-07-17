@@ -5,7 +5,7 @@ function appRoute(app) {
     const reposUrl = 'https://api.github.com/orgs/takenet/repos';
     const orgsUrl = 'https://api.github.com/orgs/takenet';
     const sort = 'created_at';
-    const register = '100'
+    const register = '100';
    
     let reposVector = [];
     let page = 1;
