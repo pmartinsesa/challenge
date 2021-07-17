@@ -1,32 +1,37 @@
 function appRoute(app) {
     const fetch = require("node-fetch");
 
-    //mudar o nome dps
-    const routeName = 'gitapi';
+    const routeName = 'gitapi';     
+    const reposUrl = 'https://api.github.com/orgs/takenet/repos';
+    const orgsUrl = 'https://api.github.com/orgs/takenet';
     const sort = 'created_at';
-    const url = 'https://api.github.com/users/takenet/repos';
-  
-    // const client_id = '854c432109469f4d6fcc'
-    // const client_secret = '630e777de5fe7e5b84d4c9635e1fe75ba91f94e2'
+    const register = '100'
+   
+    let reposVector = [];
+    let page = 1;
     
     app.route(`/${routeName}/`)
         .get(async (req, res) => {
-            console.log('bateu uma onda forte');
-            const repoResponse = await fetch(`${url}?q=&sort=${sort}`);
+            const orgsResponse = await fetch(`${orgsUrl}`);
+            const org = await orgsResponse.json();
+            const numberOfRepositories = org.public_repos;
 
-            const repos = await repoResponse.json();
+            for (let i = 0; i < numberOfRepositories; i+=100) {
+                const repoResponse = await fetch(`${reposUrl}?q=&sort=${sort}&per_page=${register}&page=${page.toString()}`);
+                const repos = await repoResponse.json();
+                reposVector = reposVector.concat(repos);
 
-            const reposFilter = repos
+                page ++;
+            }
+            
+            const reposFilter = reposVector
                 .filter(element => element.language === 'C#')
                 .reverse()
                 .slice(0, 5);
 
-            console.log(
-                reposFilter.forEach(element => 
-                {
-                    console.log(element.owner.avatar_url); 
-                })
-            )
+            reposFilter.forEach(element => {
+                console.log(element.created_at); 
+            });
 
             res.send(reposFilter);
         })
